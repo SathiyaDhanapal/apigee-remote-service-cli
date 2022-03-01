@@ -234,7 +234,7 @@ func (p *provision) run(printf shared.FormatFn) error {
 	}
 
 	if p.IsOPDK {
-		if err := p.deployInternalProxy(replaceVH, tempDir, verbosef); err != nil {
+		if err := p.deployInternalProxy(replaceVH, tempDir, verbosef, p.ResourcePrefix); err != nil {
 			return errors.Wrap(err, "deploying internal proxy")
 		}
 	}

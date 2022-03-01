@@ -58,7 +58,7 @@ var (
         internalProxy           string  = "internal-proxy"
 )
 
-func (p *provision) deployInternalProxy(replaceVirtualHosts func(proxyDir string) error, tempDir string, verbosef shared.FormatFn) error {
+func (p *provision) deployInternalProxy(replaceVirtualHosts func(proxyDir string) error, tempDir string, verbosef shared.FormatFn, resourcePrefix string) error {
 
         if len(resourcePrefix) != 0 {
                 legacyServiceProxy = resourcePrefix + legacyServiceProxy

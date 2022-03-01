@@ -42,15 +42,21 @@ const (
 	kvmName        = "remote-service"
 	cacheName      = "remote-service"
 	encryptKVM     = true
-	authProxyName  = "remote-service"
-	tokenProxyName = "remote-token"
+	//authProxyName  = "remote-service"
+	//tokenProxyName = "remote-token"
 
-	remoteServiceProxy = "remote-service-gcp"
-	remoteTokenProxy   = "remote-token-gcp"
+	//remoteServiceProxy = "remote-service-gcp"
+	//remoteTokenProxy   = "remote-token-gcp"
 )
 
 // default durations for the proxy verification retry
 var (
+        authProxyName      string = "remote-service"
+        tokenProxyName     string = "remote-token"
+
+        remoteServiceProxy string = "remote-service-gcp"
+        remoteTokenProxy   string = "remote-token-gcp"
+	
 	duration time.Duration = 180 * time.Second
 	interval time.Duration = 5 * time.Second
 )
@@ -138,6 +144,14 @@ func (p *provision) run(printf shared.FormatFn) error {
 		verbosef = shared.Errorf
 	}
 
+        if len(p.ResourcePrefix) != 0 {
+                authProxyName      = p.ResourcePrefix + authProxyName
+                tokenProxyName     = p.ResourcePrefix + tokenProxyName
+
+                remoteServiceProxy = p.ResourcePrefix + remoteServiceProxy
+                remoteTokenProxy   = p.ResourcePrefix + remoteTokenProxy
+        }
+	
 	tempDir, err := os.MkdirTemp("", "apigee")
 	if err != nil {
 		return errors.Wrap(err, "creating temp dir")

@@ -89,7 +89,8 @@ type RootArgs struct {
 	TLSCAFile          string
 	TLSCertFile        string
 	TLSKeyFile         string
-
+	ResourcePrefix     string //APIGEE proxy prefix
+	
 	ServerConfig *config.Config // config loaded from ConfigPath
 
 	// the following is derived in Resolve()
@@ -126,6 +127,9 @@ func AddCommandWithFlags(c *cobra.Command, rootArgs *RootArgs, cmds ...*cobra.Co
 			"", "path to the certificate for mTLS connection (opdk only)")
 		subC.PersistentFlags().StringVarP(&rootArgs.TLSKeyFile, "tls-key", "",
 			"", "path to the private key for mTLS connection (opdk only)")
+
+                subC.PersistentFlags().StringVarP(&rootArgs.ResourcePrefix, "prefix", "x",
+                        "", "Apigee resource name prefix")
 
 		c.AddCommand(subC)
 	}

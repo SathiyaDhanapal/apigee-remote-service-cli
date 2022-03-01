@@ -39,20 +39,34 @@ const (
 	legacyCredentialURLFormat = "%s/credential/organization/%s/environment/%s"  // InternalProxyURL, org, env
 	analyticsURLFormat        = "%s/analytics/organization/%s/environment/%s"   // InternalProxyURL, org, env
 	legacyAnalyticURLFormat   = "%s/axpublisher/organization/%s/environment/%s" // InternalProxyURL, org, env
-	legacyServiceProxy        = "remote-service-legacy"
-	legacyTokenProxy          = "remote-token-legacy"
+	//legacyServiceProxy        = "remote-service-legacy"
+	//legacyTokenProxy          = "remote-token-legacy"
 
 	// virtualHost is only necessary for legacy
 	virtualHostDeleteText     = "<VirtualHost>secure</VirtualHost>"
 	virtualHostReplaceText    = "<VirtualHost>default</VirtualHost>"
 	virtualHostReplacementFmt = "<VirtualHost>%s</VirtualHost>" // each virtualHost
 
-	internalProxyName = "edgemicro-internal"
-	internalProxy     = "internal-proxy"
+	//internalProxyName = "edgemicro-internal"
+	//internalProxy     = "internal-proxy"
+)
+
+var (
+        legacyServiceProxy      string  = "remote-service-legacy"
+        legacyTokenProxy        string  = "remote-token-legacy"
+        internalProxyName       string  = "edgemicro-internal"
+        internalProxy           string  = "internal-proxy"
 )
 
 func (p *provision) deployInternalProxy(replaceVirtualHosts func(proxyDir string) error, tempDir string, verbosef shared.FormatFn) error {
 
+        if len(resourcePrefix) != 0 {
+                legacyServiceProxy = resourcePrefix + legacyServiceProxy
+                legacyTokenProxy   = resourcePrefix + legacyTokenProxy
+                internalProxyName = resourcePrefix + internalProxyName
+                internalProxy     = resourcePrefix + internalProxy
+        }
+	
 	customizedProxy, err := getCustomizedProxy(tempDir, internalProxy, func(proxyDir string) error {
 
 		// change server locations
